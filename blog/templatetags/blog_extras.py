@@ -13,6 +13,14 @@ user_model = get_user_model()
 from django import template
 register = template.Library()
 
+from blog.models import Post
+
+
+@register.inclusion_tag("blog/post-list.html")
+def recent_posts(post):
+    posts = Post.objects.exclude(pk=post.pk)[:5]
+    return {"title": "Recent Posts", "posts": posts}
+
 
 @register.filter
 def author_details(author, current_user):
