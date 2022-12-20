@@ -14,11 +14,12 @@ from django import template
 register = template.Library()
 
 
-@register.filter
-def author_details(author, current_user=None):
-    if not isinstance(author, user_model):
-        # return empty string as safe default
-        return ""
+@register.simple_tag(takes_context=True)  # allows to access context
+def author_details_tag(context):
+    request = context["request"]
+    current_user = request.user
+    post = context["post"]
+    author = post.author
 
     if author == current_user:
         return format_html("<strong>me</strong>")
@@ -35,7 +36,7 @@ def author_details(author, current_user=None):
         prefix = ""
         suffix = ""
 
-    return format_html('{}{}{}', prefix, name, suffix)
+    return format_html("{}{}{}", prefix, name, suffix)
 
 
 # @register.filter
