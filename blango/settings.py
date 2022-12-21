@@ -12,7 +12,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 from pathlib import Path
+
+import dj_database_url
 from configurations import Configuration
+from configurations import values
 
 
 class Dev(Configuration):
@@ -28,10 +31,16 @@ class Dev(Configuration):
     SECRET_KEY = 'django-insecure-+sn%dpa!086+g+%44z9*^j^q-u4n!j(#wl)x9a%_1op@zz2+1-'
 
     # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = True
+    """
+    This will parse an environment variable string into a boolean:
+    True values are "yes", "y", "true" and "1"
+    False values are "no", "n", "false", "0" and "" (empty string)
+    """
+    DEBUG = values.BooleanValue(True)
 
+    # parses a comma-separated string into a list of values.
+    ALLOWED_HOSTS = values.ListValue(["localhost", "127.0.0.1"])
 
-    ALLOWED_HOSTS = []
     # X_FRAME_OPTIONS = 'ALLOW-FROM ' + os.environ.get('CODIO_HOSTNAME') + '-8000.codio.io'
     # CSRF_COOKIE_SAMESITE = None
     # CSRF_TRUSTED_ORIGINS = ['https://' + os.environ.get('CODIO_HOSTNAME') + '-8000.codio.io']
@@ -91,13 +100,23 @@ class Dev(Configuration):
     # Database
     # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.sqlite3',
+    #         'NAME': BASE_DIR / 'db.sqlite3',
+    #     }
+    # }
 
+    # DATABASES = values.DatabaseURLValue(f"sqlite:///{BASE_DIR}/db.sqlite3")  # it reads from the environment variable DATABASE_URL
+
+
+    # DATABASES = {
+    # "default": dj_database_url.config(default=f"sqlite:///{BASE_DIR}/db.sqlite3"),
+    # "alternative": dj_database_url.config(
+    #     "ALTERNATIVE_DATABASE_URL",
+    #     default=f"sqlite:///{BASE_DIR}/alternative_db.sqlite3",
+    #     ),
+    # }
 
     # Password validation
     # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -123,7 +142,7 @@ class Dev(Configuration):
 
     LANGUAGE_CODE = 'en-us'
 
-    TIME_ZONE = 'UTC'
+    TIME_ZONE = values.Value("UTC")  # TIME_ZONE = values.Value("UTC", environ_prefix="BLANGO")
 
     USE_I18N = True
 
@@ -144,3 +163,8 @@ class Dev(Configuration):
 
     CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
     CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+
+class Prod(Dev):
+    DEBUG = False
+    SECRET_KEY = values.SecretValue()
