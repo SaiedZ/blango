@@ -8,7 +8,15 @@ During four courses, I have created a blog an an accompanying API using industry
 
 ## What I have learned
 
-- Create custom filters and templates
+- Course 1:
+  - Generic Relationships
+  - Create custom filters and tags and templates
+  - Crispy forms
+  - 12 factors app
+  - Django Configurations
+  
 - Optimize performance through caching and optimizing database operations
+
 - Authenticate users with Google
+
 - Build an API with Django Rest Framework
