@@ -19,7 +19,24 @@ logger = logging.getLogger(__name__)
 
 
 def index(request):
-    posts = Post.objects.filter(published_at__lte=timezone.now())
+    posts = Post.objects.filter(published_at__lte=timezone.now()).select_related("author")
+
+    # These two methods of filtering the fetched fields are equivalent:
+    # if you do think you need to use one, prefer defer(), so that if you
+    # add fields they’ll be pre-fetched and ready to use without having to update anything else.
+
+    # posts = (
+    #     Post.objects.filter(published_at__lte=timezone.now())
+    #     .select_related("author")
+    #     .only("title", "summary", "content", "author", "published_at", "slug")
+    # )
+
+    # posts = (
+    #     Post.objects.filter(published_at__lte=timezone.now())
+    #     .select_related("author")
+    #     .defer("created_at", "modified_at")
+    # )
+
     logger.debug("Got %d posts", len(posts))
     return render(request, "blog/index.html", {"posts": posts})
 
@@ -50,3 +67,8 @@ def post_detail(request, slug):
     return render(
         request, "blog/post-detail.html", {"post": post, "comment_form": comment_form}
     )
+
+
+def get_ip(request):
+    from django.http import HttpResponse
+    return HttpResponse(request.META['REMOTE_ADDR'])

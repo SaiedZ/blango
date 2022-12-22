@@ -62,6 +62,7 @@ class Dev(Configuration):
 
         'crispy_forms',
         'crispy_bootstrap5',
+        'debug_toolbar',
 
         'blog',
     ]
@@ -74,6 +75,8 @@ class Dev(Configuration):
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
     ]
 
     ROOT_URLCONF = 'blango.urls'
@@ -176,6 +179,8 @@ class Dev(Configuration):
 
     # DJANGO_ADMINS="Ben Shaw,ben@example.com;Leo Lucio,leo@example.com"
 
+    from debug_toolbar.panels.logging import collector # needed for handler constructor below
+
     LOGGING = {
         "version": 1,
         "disable_existing_loggers": False,
@@ -201,6 +206,12 @@ class Dev(Configuration):
                 "class": "django.utils.log.AdminEmailHandler",
                 "filters": ["require_debug_false"],
             },
+            'djdt_log': {
+                'level': 'DEBUG',
+                'class': 'debug_toolbar.panels.logging.ThreadTrackingHandler',
+                'collector': collector,
+                "formatter": "verbose",
+            },
         },
         "loggers": {
             "django.request": {
@@ -210,11 +221,17 @@ class Dev(Configuration):
             },
         },
         "root": {
-            "handlers": ["console"],
+            "handlers": ["console", 'djdt_log'],
             "level": "DEBUG",
         },
     }
 
+    # Django Debug Toolbar
+    INTERNAL_IPS = [
+        # ...
+        "127.0.0.1",
+        # ...
+    ]
 
 class Prod(Dev):
     DEBUG = False

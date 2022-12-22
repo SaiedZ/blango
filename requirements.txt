@@ -13,6 +13,7 @@ dj-database-url==1.2.0
 Django==4.1.4
 django-configurations==2.4
 django-crispy-forms==1.14.0
+django_debug_toolbar==3.8.1
 executing==1.2.0
 ipython==8.7.0
 jedi==0.18.2
