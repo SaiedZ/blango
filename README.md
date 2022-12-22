@@ -8,7 +8,8 @@ During four courses, I have created a blog an an accompanying API using industry
 
 ## What I have learned
 
-- Course 1:
+### Course 1: Advanced Django: Building a Blog
+
   - Generic Relationships
   - Create custom filters and tags and templates
   - Crispy forms
@@ -16,11 +17,6 @@ During four courses, I have created a blog an an accompanying API using industry
   - Django Configurations: using the django-configurations third party to easilly manage different settings bettween dev and prod envirement.
   - Logging
   - Security and Passwords
-  - Caching
+  - Optimize performance through caching
   - Database Optimization
   
-- Optimize performance through caching and optimizing database operations
-
-- Authenticate users with Google
-
-- Build an API with Django Rest Framework
