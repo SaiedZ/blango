@@ -17,6 +17,7 @@ During four courses, I have created a blog an an accompanying API using industry
   - Logging
   - Security and Passwords
   - Caching
+  - Database Optimization
   
 - Optimize performance through caching and optimizing database operations
 
