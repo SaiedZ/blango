@@ -15,6 +15,7 @@ During four courses, I have created a blog an an accompanying API using industry
   - 12 factors app
   - Django Configurations: using the django-configurations third party to easilly manage different settings bettween dev and prod envirement.
   - Logging
+  - Security and Passwords
   
 - Optimize performance through caching and optimizing database operations
 
