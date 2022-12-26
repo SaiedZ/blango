@@ -20,4 +20,4 @@ During four courses, I have created a blog an an accompanying API using industry
   - Optimize performance through caching
   - Database Optimization
   - Custom User Model
-  - Django Registration (One or Tow step [email validation])
+  - Django Registration (One or Two-step activation [email validation])
